@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_baseline_home"
+        android:title=""
+        tools:title="home" />
+
+    <item
+        android:id="@+id/navigation_empty"
+        android:title=""
+        tools:title="empty" />
+
+    <item
+        android:id="@+id/navigation_calendar"
+        android:icon="@drawable/ic_baseline_calendar_month"
+        android:title=""
+        tools:title="calendar" />
+</menu>
