@@ -12,7 +12,4 @@
         tools:layout="@layout/fragment_welcome" >
     </fragment>
 
-    <action android:id="@+id/action_global_welcome"
-        app:destination="@id/navigation_content"/>
-
 </navigation>

@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.pethabittracker.gora.NavigationDirections
 import com.pethabittracker.gora.R
 import com.pethabittracker.gora.databinding.FragmentContentBinding
 
@@ -38,7 +40,7 @@ class ContentFragment : Fragment() {
             bottomNavigation.setupWithNavController(nestedController)
 
             fab.setOnClickListener {
-                Toast.makeText(context, "the button is working", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(NavigationDirections.actionGlobalFab())
             }
 
             // отключаем кликабельность средней кнопки

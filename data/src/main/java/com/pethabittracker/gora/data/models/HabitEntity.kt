@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 internal data class HabitEntity(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val name: String,
     @ColumnInfo(name = "url_image")
     val urlImage: String,

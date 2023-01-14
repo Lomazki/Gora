@@ -41,6 +41,8 @@ dependencies {
     implementation project(':data')
     implementation project(':domain')
 
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+
     def koin_version = "3.2.2"
     implementation "io.insert-koin:koin-android:$koin_version"  // возможно, здесь это не нужно
 

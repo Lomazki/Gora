@@ -7,5 +7,12 @@
 
     <include app:graph="@navigation/navigation_content" />
     <include app:graph="@navigation/navigation_welcome" />
+    <include app:graph="@navigation/navigation_detail" />
+
+    <action android:id="@+id/action_global_welcome"
+        app:destination="@id/navigation_content"/>
+
+    <action android:id="@+id/action_global_fab"
+        app:destination="@id/navigation_detail"/>
 
 </navigation>

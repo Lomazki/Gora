@@ -6,9 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.pethabittracker.gora.databinding.FragmentHomeBinding
 import com.pethabittracker.gora.presentation.ui.adapter.HabitAdapter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -45,7 +50,14 @@ class HomeFragment : Fragment() {
                 )
             )
         }
-        adapter.submitList(viewModel.listHabit)
+
+        viewModel
+            .listHabitFlow
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .onEach { adapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+//        adapter.submitList(viewModel.listHabit)
     }
 
     override fun onDestroy() {

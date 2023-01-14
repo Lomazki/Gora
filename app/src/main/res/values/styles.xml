@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ListCardViewStyle" parent="Theme.AppCompat.Light">
+        <item name="cardCornerRadius">5dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardMaxElevation">4dp</item>
+    </style>
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+
+</resources>

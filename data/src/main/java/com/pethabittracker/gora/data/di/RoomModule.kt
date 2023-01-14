@@ -10,7 +10,9 @@ internal val roomModule = module {
             get(),
             HabitDatabase::class.java,
             "database"
-        ).allowMainThreadQueries().build()
+        )
+           // .allowMainThreadQueries()
+            .build()
     }
 
     single { get<HabitDatabase>().habitDao() }
