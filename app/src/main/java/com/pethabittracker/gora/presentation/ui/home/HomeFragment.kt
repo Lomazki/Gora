@@ -18,7 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
-    private var _binding : FragmentHomeBinding? = null
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModel<HomeViewModel>()
     private val adapter by lazy {
@@ -56,8 +56,6 @@ class HomeFragment : Fragment() {
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .onEach { adapter.submitList(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
-
-//        adapter.submitList(viewModel.listHabit)
     }
 
     override fun onDestroy() {

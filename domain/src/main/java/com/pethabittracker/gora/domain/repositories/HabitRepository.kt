@@ -13,5 +13,5 @@ interface HabitRepository {
 
     suspend fun getAllHabits(): List<Habit>
 
-    suspend fun newHabit(name: String, url: String) : Habit
+    fun newHabit(name: String, url: String) : Habit
 }

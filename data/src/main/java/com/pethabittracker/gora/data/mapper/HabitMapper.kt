@@ -4,8 +4,8 @@ import com.pethabittracker.gora.data.models.HabitEntity
 import com.pethabittracker.gora.domain.models.Habit
 import com.pethabittracker.gora.domain.models.HabitId
 
-internal fun List<Habit>.toDomainModelsForEntity(): List<HabitEntity> = map {
-    it.toDomain()
+internal fun List<Habit>.toDataModelsForEntity(): List<HabitEntity> = map {
+    it.toData()
 }
 
 internal fun List<HabitEntity>.toDomainModels(): List<Habit> = map {
@@ -24,7 +24,7 @@ internal fun HabitEntity.toDomain(): Habit {
     )
 }
 
-internal fun Habit.toDomain(): HabitEntity {
+internal fun Habit.toData(): HabitEntity {
     return HabitEntity(
         id = id.toDomain(),
         name = name,
