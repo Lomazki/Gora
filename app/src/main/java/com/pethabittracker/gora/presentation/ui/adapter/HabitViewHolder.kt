@@ -8,14 +8,15 @@ import com.pethabittracker.gora.domain.models.Habit
 
 class HabitViewHolder(
     private val binding: ItemHabitBinding,
-    private val context: Context
+    private val context: Context,
+    private val onButtonDoneClicked: (Habit) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(habit: Habit) {
 
         with(binding) {
             buttonDone.setOnClickListener {
-                Toast.makeText(context, "I am best of the best", Toast.LENGTH_SHORT).show()
+                onButtonDoneClicked(habit)
             }
             buttonSkip.setOnClickListener {
                 Toast.makeText(context, "I have been lazy", Toast.LENGTH_SHORT).show()

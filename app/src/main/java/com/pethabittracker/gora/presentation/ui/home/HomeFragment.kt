@@ -22,7 +22,12 @@ class HomeFragment : Fragment() {
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModel<HomeViewModel>()
     private val adapter by lazy {
-        HabitAdapter(requireContext())
+        HabitAdapter(
+            context = requireContext(),
+            onButtonDoneClicked = {
+                viewModel.onButtonAddHabit(it)
+            }
+        )
     }
 
     override fun onCreateView(
