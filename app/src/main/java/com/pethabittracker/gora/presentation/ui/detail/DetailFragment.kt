@@ -37,7 +37,7 @@ class DetailFragment : Fragment() {
 
                 lifecycleScope.launch {
                     runCatching {
-                        val newHabit = detailViewModel.newHabit(titleHabit, "url")
+                        val newHabit = detailViewModel.newHabit(titleHabit, "url", 1)
                         detailViewModel.insertHabit(newHabit)
                     }
                 }

@@ -4,4 +4,5 @@ data class Habit(
     val id: HabitId,
     val name: String,
     val urlImage: String,
+    val priority: Int
 )

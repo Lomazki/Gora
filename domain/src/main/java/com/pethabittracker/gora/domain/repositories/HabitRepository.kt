@@ -2,6 +2,8 @@ package com.pethabittracker.gora.domain.repositories
 
 import com.pethabittracker.gora.domain.models.Habit
 import com.pethabittracker.gora.domain.models.HabitId
+import kotlinx.coroutines.flow.Flow
+
 
 interface HabitRepository {
 
@@ -13,5 +15,9 @@ interface HabitRepository {
 
     suspend fun getAllHabits(): List<Habit>
 
-    fun newHabit(name: String, url: String) : Habit
+    fun getFlowAllHabits(): Flow<List<Habit>>
+
+    fun newHabit(name: String, url: String, priority: Int): Habit
+
+    suspend fun updateHabitPriority(habit: Habit, priority: Int)
 }

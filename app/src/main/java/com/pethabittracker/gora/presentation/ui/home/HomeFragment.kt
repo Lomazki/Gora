@@ -9,11 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.pethabittracker.gora.databinding.FragmentHomeBinding
+import com.pethabittracker.gora.domain.models.Habit
 import com.pethabittracker.gora.presentation.ui.adapter.HabitAdapter
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -25,7 +31,7 @@ class HomeFragment : Fragment() {
         HabitAdapter(
             context = requireContext(),
             onButtonDoneClicked = {
-                viewModel.onButtonAddHabit(it)
+                skipDown(it)
             }
         )
     }
@@ -56,15 +62,73 @@ class HomeFragment : Fragment() {
             )
         }
 
-        viewModel
-            .listHabitFlow
-            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-            .onEach { adapter.submitList(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        updateList()
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val habit = adapter.currentList[position]
+                lifecycleScope.launch {
+                    viewModel.deleteHabit(habit)
+                }
+                // adapter.notifyItemRemoved(position)
+                 updateList()
+            }
+        }
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(binding.recyclerView)
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun updateList() {
+
+        viewModel.allHabit.observe(this.viewLifecycleOwner) { items ->
+            items.let { list ->
+                adapter.submitList(list.sortedBy { it.priority })
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel
+                    .listHabitFlow
+                    .distinctUntilChanged()
+
+                    .collect {list ->
+                      // list.toMutableList().sortBy { it.priority }
+                        adapter.submitList(list.sortedByDescending { it.priority })
+                    }
+            }
+        }
+
+    }
+
+    private fun skipDown(it: Habit) {
+        lifecycleScope.launch {
+            val listHabit = viewModel.getAllHabits().toMutableList()
+
+            val index = listHabit.indexOf(it)
+            val remove = listHabit.removeAt(index)
+            listHabit.add(remove)
+            adapter.notifyItemMoved(index, listHabit.size - 1)
+            viewModel.updateHabit(it, -1)
+        }
+         updateList()
     }
 }

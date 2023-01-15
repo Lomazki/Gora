@@ -1,7 +1,9 @@
 package com.pethabittracker.gora.data.database
 
+import android.provider.ContactsContract
 import androidx.room.*
 import com.pethabittracker.gora.data.models.HabitEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface HabitDao {
@@ -15,6 +17,12 @@ internal interface HabitDao {
     @Query("SELECT * FROM HabitEntity")
     fun getHabitEntityList(): List<HabitEntity>
 
+    @Query("SELECT * FROM HabitEntity")
+    fun getFlowHabitEntityList(): Flow<List<HabitEntity>>
+
     @Delete
-    fun deleteHabit(habitEntity: HabitEntity)
+    fun deleteHabit(habit: HabitEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun update(habit: HabitEntity)
 }

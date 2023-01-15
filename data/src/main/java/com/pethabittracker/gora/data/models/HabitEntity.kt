@@ -11,4 +11,5 @@ internal data class HabitEntity(
     val name: String,
     @ColumnInfo(name = "url_image")
     val urlImage: String,
+    val priority: Int
 )

@@ -20,7 +20,8 @@ internal fun HabitEntity.toDomain(): Habit {
     return Habit(
         id = HabitId(id),
         name = name,
-        urlImage = urlImage
+        urlImage = urlImage,
+        priority = priority
     )
 }
 
@@ -28,6 +29,7 @@ internal fun Habit.toData(): HabitEntity {
     return HabitEntity(
         id = id.toDomain(),
         name = name,
-        urlImage = urlImage
+        urlImage = urlImage,
+        priority = priority
     )
 }
