@@ -43,12 +43,13 @@ internal class HabitRepositoryImpl(private val habitDao: HabitDao) : HabitReposi
         ).toDomain()
     }
 
-    override suspend fun updateHabitPriority(habit: Habit, priority: Int)= withContext(Dispatchers.IO) {
-        val updatedHabit = HabitEntity(
-            name = habit.name,
-            urlImage = habit.urlImage,
+    override fun updateHabitPriority(id: HabitId ,name: String, url: String, priority: Int) {
+        val updatedHabit = Habit(
+            id = id,
+            name = name,
+            urlImage = url,
             priority = priority
-        )
+        ).toData()
         habitDao.update(updatedHabit)
     }
 }

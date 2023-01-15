@@ -1,6 +1,5 @@
 package com.pethabittracker.gora.data.database
 
-import android.provider.ContactsContract
 import androidx.room.*
 import com.pethabittracker.gora.data.models.HabitEntity
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +16,7 @@ internal interface HabitDao {
     @Query("SELECT * FROM HabitEntity")
     fun getHabitEntityList(): List<HabitEntity>
 
-    @Query("SELECT * FROM HabitEntity")
+    @Query("SELECT * from HabitEntity ORDER BY priority ASC")
     fun getFlowHabitEntityList(): Flow<List<HabitEntity>>
 
     @Delete

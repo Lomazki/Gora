@@ -1,8 +1,10 @@
 package com.pethabittracker.gora.presentation.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.pethabittracker.gora.domain.models.Habit
 import com.pethabittracker.gora.domain.repositories.HabitRepository
 import kotlinx.coroutines.Dispatchers
@@ -71,29 +73,19 @@ class HomeViewModel(
 //        )
 
 
-//    fun onButtonAddHabit(habit: Habit) {
-//        Log.d("Check", "ViewModel")
-//
-//        flow<Unit> {
-//            repository.deleteHabits(habit)
-//            Log.d("Check", "ViewModelDelete")
-//
-//        }.launchIn(viewModelScope)
-//    }
+    fun skipDown(habit: Habit) {
+        flow<Unit> {
+            updateHabit(habit,2)
+        }.launchIn(viewModelScope)
+    }
 
     suspend fun deleteHabit(habit: Habit) = withContext(Dispatchers.IO) {
         repository.deleteHabits(habit)
     }
 
-    suspend fun getAllHabits() = withContext(Dispatchers.IO) {
-        repository.getAllHabits()
-    }
-
-    suspend fun insertHabit(habit: Habit) = withContext(Dispatchers.IO) {
-        repository.insertHabits(habit)
-    }
-
-    suspend fun updateHabit(habit: Habit, priority: Int) = withContext(Dispatchers.IO) {
-        repository.updateHabitPriority(habit, priority)
+    private suspend fun updateHabit(habit: Habit, priority: Int) = withContext(Dispatchers.IO) {
+       runCatching {
+            repository.updateHabitPriority(habit.id, habit.name, habit.urlImage, priority)
+       }
     }
 }

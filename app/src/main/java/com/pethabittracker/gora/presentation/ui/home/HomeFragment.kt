@@ -2,6 +2,7 @@ package com.pethabittracker.gora.presentation.ui.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ class HomeFragment : Fragment() {
         HabitAdapter(
             context = requireContext(),
             onButtonDoneClicked = {
-                skipDown(it)
+                viewModel.skipDown(it)
             }
         )
     }
@@ -83,7 +84,7 @@ class HomeFragment : Fragment() {
                     viewModel.deleteHabit(habit)
                 }
                 // adapter.notifyItemRemoved(position)
-                 updateList()
+               //  updateList()
             }
         }
         ItemTouchHelper(itemTouchHelperCallback).apply {
@@ -100,35 +101,21 @@ class HomeFragment : Fragment() {
 
         viewModel.allHabit.observe(this.viewLifecycleOwner) { items ->
             items.let { list ->
-                adapter.submitList(list.sortedBy { it.priority })
+                adapter.submitList(list)
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel
-                    .listHabitFlow
-                    .distinctUntilChanged()
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel
+//                    .listHabitFlow
+//                    .distinctUntilChanged()
+//
+//                    .collect {list ->
+//                        adapter.submitList(list.sortedByDescending { it.priority })
+//                    }
+//            }
+//        }
 
-                    .collect {list ->
-                      // list.toMutableList().sortBy { it.priority }
-                        adapter.submitList(list.sortedByDescending { it.priority })
-                    }
-            }
-        }
-
-    }
-
-    private fun skipDown(it: Habit) {
-        lifecycleScope.launch {
-            val listHabit = viewModel.getAllHabits().toMutableList()
-
-            val index = listHabit.indexOf(it)
-            val remove = listHabit.removeAt(index)
-            listHabit.add(remove)
-            adapter.notifyItemMoved(index, listHabit.size - 1)
-            viewModel.updateHabit(it, -1)
-        }
-         updateList()
     }
 }

@@ -19,5 +19,5 @@ interface HabitRepository {
 
     fun newHabit(name: String, url: String, priority: Int): Habit
 
-    suspend fun updateHabitPriority(habit: Habit, priority: Int)
+    fun updateHabitPriority(id: HabitId ,name: String, url: String, priority: Int)
 }
