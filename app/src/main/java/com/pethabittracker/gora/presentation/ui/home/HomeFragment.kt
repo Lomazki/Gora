@@ -2,6 +2,7 @@ package com.pethabittracker.gora.presentation.ui.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.pethabittracker.gora.databinding.FragmentHomeBinding
+import com.pethabittracker.gora.domain.models.Habit
 import com.pethabittracker.gora.presentation.ui.adapter.HabitAdapter
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -22,7 +29,12 @@ class HomeFragment : Fragment() {
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModel<HomeViewModel>()
     private val adapter by lazy {
-        HabitAdapter(requireContext())
+        HabitAdapter(
+            context = requireContext(),
+            onButtonDoneClicked = {
+                viewModel.skipDown(it)
+            }
+        )
     }
 
     override fun onCreateView(
@@ -51,15 +63,59 @@ class HomeFragment : Fragment() {
             )
         }
 
-        viewModel
-            .listHabitFlow
-            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-            .onEach { adapter.submitList(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        updateList()
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val habit = adapter.currentList[position]
+                lifecycleScope.launch {
+                    viewModel.deleteHabit(habit)
+                }
+                // adapter.notifyItemRemoved(position)
+               //  updateList()
+            }
+        }
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(binding.recyclerView)
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun updateList() {
+
+        viewModel.allHabit.observe(this.viewLifecycleOwner) { items ->
+            items.let { list ->
+                adapter.submitList(list)
+            }
+        }
+
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel
+//                    .listHabitFlow
+//                    .distinctUntilChanged()
+//
+//                    .collect {list ->
+//                        adapter.submitList(list.sortedByDescending { it.priority })
+//                    }
+//            }
+//        }
+
     }
 }

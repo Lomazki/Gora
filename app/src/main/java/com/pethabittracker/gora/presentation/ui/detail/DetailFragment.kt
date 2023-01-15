@@ -1,21 +1,21 @@
 package com.pethabittracker.gora.presentation.ui.detail
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
-import androidx.lifecycle.lifecycleScope
 import com.pethabittracker.gora.databinding.FragmentDetailBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = requireNotNull(_binding)
-
     private val detailViewModel by viewModel<DetailViewModel>()
 
     override fun onCreateView(
@@ -32,22 +32,19 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-
             buttonSave.setOnClickListener {
                 val titleHabit = containerTitle.getTextOrSetError() ?: return@setOnClickListener
 
                 lifecycleScope.launch {
-                   runCatching {
-                       val newHabit = detailViewModel.newHabit(titleHabit, "url")
-                       detailViewModel.insertHabit(newHabit)
+                    runCatching {
+                        val newHabit = detailViewModel.newHabit(titleHabit, "url", 1)
+                        detailViewModel.insertHabit(newHabit)
                     }
                 }
 
                 findNavController().navigateUp()
             }
-
         }
-
     }
 
     override fun onDestroyView() {
@@ -62,5 +59,4 @@ class DetailFragment : Fragment() {
                 null
             }
     }
-
 }
