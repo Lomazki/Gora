@@ -45,7 +45,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
 
     def koin_version = "3.2.2"
-    implementation "io.insert-koin:koin-android:$koin_version"  // возможно, здесь это не нужно
+    implementation "io.insert-koin:koin-android:$koin_version"
 
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'

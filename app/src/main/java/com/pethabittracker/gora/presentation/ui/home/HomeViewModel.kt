@@ -1,6 +1,5 @@
 package com.pethabittracker.gora.presentation.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -15,67 +14,29 @@ class HomeViewModel(
     private val repository: HabitRepository,
 ) : ViewModel() {
 
-    private val dataFlow = flowOf<List<Habit>>()
+    private val _dataFlow = MutableStateFlow(emptyList<Habit>())
+    private val dataFlow: Flow<List<Habit>> = _dataFlow.asStateFlow()
 
-    val listHabitFlow = dataFlow
-        .onStart {
-            runCatching {
-                repository.getAllHabits()
+    //------------------ with Coroutine -------------------------------------------------------
+    fun getAllHabit(): Flow<List<Habit>> {
+
+        return dataFlow    // работает, но что-то здесь не то
+            .runCatching {
+                repository.getFlowAllHabits()
             }
-                .fold(
-                    onSuccess = {
-                        emit(it)
-                    },
-                    onFailure = {
-                        emit(emptyList())
-                    }
-                )
-        }
+            .fold(
+                onSuccess = { flowListHabit -> flowListHabit.map { it } },
+                onFailure = { emptyFlow() }
+            )
+    }
+
+    //----------------- with LiveData -------------------------------------------------------------
 
     val allHabit: LiveData<List<Habit>> = repository.getFlowAllHabits().asLiveData()
 
-
-//    val listHabitFlow: Flow<List<Habit>> = flow {
-//        val data = repository.getAllHabits()
-//        emit(data)
-//    }.stateIn(
-//        scope = viewModelScope,
-//        started = SharingStarted.Eagerly,
-//        initialValue = emptyList()
-//    )
-
-
-//    private val dataFlow = MutableStateFlow(emptyList<Habit>())
-//
-//    init {
-//        viewModelScope.launch {
-//            dataFlow.value = repository.getAllHabits()
-//        }
-//    }
-//
-//    val listHabitFlow = dataFlow
-//        .map {
-//            runCatching {
-//                repository.getAllHabits()
-//            }.fold(
-//                onSuccess = {
-//                    it
-//                },
-//                onFailure = {
-//                    emptyList()
-//                }
-//            )
-//        }
-//        .shareIn(
-//            viewModelScope,
-//            SharingStarted.Eagerly,
-//            replay = 1
-//        )
-
-
     fun skipDown(habit: Habit) {
         flow<Unit> {
-            updateHabit(habit,2)
+            updateHabit(habit, 2)
         }.launchIn(viewModelScope)
     }
 
@@ -84,8 +45,8 @@ class HomeViewModel(
     }
 
     private suspend fun updateHabit(habit: Habit, priority: Int) = withContext(Dispatchers.IO) {
-       runCatching {
+        runCatching {
             repository.updateHabitPriority(habit.id, habit.name, habit.urlImage, priority)
-       }
+        }
     }
 }

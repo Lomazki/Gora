@@ -2,22 +2,16 @@ package com.pethabittracker.gora.presentation.ui.home
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.pethabittracker.gora.databinding.FragmentHomeBinding
-import com.pethabittracker.gora.domain.models.Habit
 import com.pethabittracker.gora.presentation.ui.adapter.HabitAdapter
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -84,7 +78,7 @@ class HomeFragment : Fragment() {
                     viewModel.deleteHabit(habit)
                 }
                 // adapter.notifyItemRemoved(position)
-               //  updateList()
+                //  updateList()
             }
         }
         ItemTouchHelper(itemTouchHelperCallback).apply {
@@ -99,23 +93,18 @@ class HomeFragment : Fragment() {
 
     private fun updateList() {
 
-        viewModel.allHabit.observe(this.viewLifecycleOwner) { items ->
-            items.let { list ->
-                adapter.submitList(list)
+    //------------------ with Coroutine -------------------------------------------------------
+        viewModel.getAllHabit()
+            .onEach {
+                adapter.submitList(it)
             }
-        }
+            .launchIn(lifecycleScope)
 
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel
-//                    .listHabitFlow
-//                    .distinctUntilChanged()
-//
-//                    .collect {list ->
-//                        adapter.submitList(list.sortedByDescending { it.priority })
-//                    }
+    //------------------ with LiveData -------------------------------------------------------
+//        viewModel.allHabit.observe(this.viewLifecycleOwner) { items ->
+//            items.let { list ->
+//                adapter.submitList(list)
 //            }
 //        }
-
     }
 }
