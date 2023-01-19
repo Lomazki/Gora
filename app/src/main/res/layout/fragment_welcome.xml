@@ -1,40 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="4dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/sea_foam"
+    android:layout_margin="4dp">
 
     <ImageView
         android:id="@+id/iv"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:src="@drawable/are_you_ready"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/welcome_main"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_welcome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_view_be_creator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Добро пожаловать. \n Начнём планировать \n твой день?!"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/button"
+        android:text="@string/be_creator"
+        android:textColor="@color/sapphire"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/text_view_welcome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/text_view_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Давай!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:text="@string/welcome_text"
+        android:textColor="@color/sapphire"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView" />
+        app:layout_constraintTop_toBottomOf="@id/text_view_be_creator" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="320dp"
+        android:layout_height="56dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/roundstyle"
+        android:backgroundTint="@color/blue_fcbk"
+        android:text="@string/go"
+        android:textAllCaps="false"
+        android:textColor="@color/snow_white"
+        android:textSize="16sp"
+        app:backgroundTint="@color/blue_fcbk"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_welcome" />
 </androidx.constraintlayout.widget.ConstraintLayout>
