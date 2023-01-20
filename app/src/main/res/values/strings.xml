@@ -6,6 +6,8 @@
     <string name="be_creator">Будь творцом своей жизни!</string>
     <string name="my_habit">Мои привычки</string>
     <string name="add_habit_text">У вас пока нет привычек. \nЧтобы добавить привычку, \nНажмите «+»</string>
+    <string name="done">сделано</string>
+    <string name="skip">пропустить</string>
 
 </resources>
 

@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
                 val mBackGround = ColorDrawable()
                 val backGroundColor = Color.parseColor("#b80f0a")
                 val deleteDrawable =
-                    getDrawable(requireContext(), R.drawable.baseline_delete_forever_24)
+                    getDrawable(requireContext(), R.drawable.trashcan)
                 val width = deleteDrawable?.intrinsicWidth ?: 0
                 val height = deleteDrawable?.intrinsicHeight ?: 0
 
