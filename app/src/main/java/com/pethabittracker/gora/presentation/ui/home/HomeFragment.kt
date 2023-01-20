@@ -1,6 +1,5 @@
 package com.pethabittracker.gora.presentation.ui.home
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,8 +44,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            root.setBackgroundColor(Color.GRAY)
             recyclerView.adapter = adapter
+
+            // закругляем углы картинки
+            ivHills.clipToOutline = true
 
             // Decorator
             recyclerView.addItemDecoration(

@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/sea_foam"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/foto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:src="@drawable/foto" />
+
+            <TextView
+                android:id="@+id/tv_click_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/add_habit_text"
+                android:textColor="@color/sapphire"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:paddingStart="104dp"
+                android:paddingEnd="0dp"
+                android:src="@drawable/vector_arrow" />
+        </LinearLayout>
+    </FrameLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container_content"
@@ -20,14 +59,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="@color/white"
         app:fabCradleVerticalOffset="10dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/transparent_background"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:background="@color/white"
+            app:elevation="0dp"
+            app:itemIconTint="@color/blue_fcbk"
             app:menu="@menu/menu_bottom" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -35,8 +77,14 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/button_add"
         android:backgroundTint="@color/white"
-        app:layout_anchor="@id/bottom_app_bar"
-        android:contentDescription="Q" />
+        android:contentDescription="Q"
+        android:src="@drawable/button_add"
+        app:elevation="0dp"
+        app:layout_anchor="@id/bottom_app_bar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!--TODO избавиться от лишнего LinearLayout-->
+
+    <!--    app:elevation="0dp"                     - убирает тени -->
+    <!--    app:itemIconTint="@color/blue_fcbk"     - устанавливает цвет иконкам -->
