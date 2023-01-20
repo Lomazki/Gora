@@ -1,10 +1,6 @@
 package com.pethabittracker.gora.presentation.ui.home
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
+import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,7 +19,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.math.roundToInt
 
 class HomeFragment : Fragment() {
 
@@ -112,6 +107,7 @@ class HomeFragment : Fragment() {
                     viewModel.deleteHabit(habit)
                 }
             }
+
             override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
                 return 1f
             }
