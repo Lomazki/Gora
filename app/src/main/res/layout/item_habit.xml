@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_habit"
@@ -14,38 +13,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/image_constraint"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_view"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/are_you_ready"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_gravity="start">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_view"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:background="@color/purple_700"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_baseline_airline_seat_individual_suite_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                tools:src="@tools:sample/avatars" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/text_view"
             android:layout_width="260dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:gravity="center"
-            android:textSize="18sp"
             android:textColor="@color/blue"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_constraint"
+            app:layout_constraintStart_toEndOf="@+id/image_view"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Название привычки" />
 
@@ -53,28 +41,28 @@
             android:id="@+id/button_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/gray"
             android:drawableLeft="@drawable/ic_baseline_done_24"
             android:padding="4dp"
+            android:text="Сделано!"
             android:textAllCaps="false"
-            android:backgroundTint="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_skip"
-            app:layout_constraintStart_toEndOf="@+id/image_constraint"
-            android:text="Сделано!"
+            app:layout_constraintStart_toEndOf="@+id/image_view"
             tools:text="Сделано!" />
 
         <Button
             android:id="@+id/button_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/gray"
             android:drawableLeft="@drawable/ic_baseline_clear_24"
             android:padding="4dp"
+            android:text="Пропустить"
             android:textAllCaps="false"
-            android:backgroundTint="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/button_done"
-            android:text="Пропустить"
             tools:text="Пропустить" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

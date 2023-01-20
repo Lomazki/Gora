@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="emoji_choice">52dp</dimen>
+    <dimen name="dp_14">14dp</dimen>
+    <dimen name="text_margin">10dp</dimen>
+
+
+</resources>
