@@ -47,7 +47,6 @@
         android:layout_height="56dp"
         android:layout_margin="4dp"
         android:background="@drawable/roundstyle"
-        android:backgroundTint="@color/blue_fcbk"
         android:text="@string/go"
         android:textAllCaps="false"
         android:textColor="@color/snow_white"
