@@ -1,27 +1,29 @@
 package com.pethabittracker.gora.presentation.ui.home
 
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.pethabittracker.gora.R
 import com.pethabittracker.gora.databinding.FragmentHomeBinding
-import com.pethabittracker.gora.domain.models.Habit
 import com.pethabittracker.gora.presentation.ui.adapter.HabitAdapter
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.roundToInt
 
 class HomeFragment : Fragment() {
 
@@ -29,22 +31,15 @@ class HomeFragment : Fragment() {
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModel<HomeViewModel>()
     private val adapter by lazy {
-        HabitAdapter(
-            context = requireContext(),
-            onButtonDoneClicked = {
-                viewModel.skipDown(it)
-            }
-        )
+        HabitAdapter(context = requireContext(), onButtonDoneClicked = {
+            viewModel.skipDown(it)
+        })
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        return FragmentHomeBinding.inflate(inflater, container, false)
-            .also { _binding = it }
-            .root
+        return FragmentHomeBinding.inflate(inflater, container, false).also { _binding = it }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,17 +52,39 @@ class HomeFragment : Fragment() {
             // Decorator
             recyclerView.addItemDecoration(
                 MaterialDividerItemDecoration(
-                    requireContext(),
-                    MaterialDividerItemDecoration.VERTICAL
+                    requireContext(), MaterialDividerItemDecoration.VERTICAL
                 )
             )
         }
 
         updateList()
 
+        setSwipeToDelete()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun updateList() {
+
+        //------------------ with Coroutine -------------------------------------------------------
+        viewModel.getAllHabit().onEach {
+            adapter.submitList(it)
+        }.launchIn(lifecycleScope)
+
+        //------------------ with LiveData -------------------------------------------------------
+//        viewModel.allHabit.observe(this.viewLifecycleOwner) { items ->
+//            items.let { list ->
+//                adapter.submitList(list)
+//            }
+//        }
+    }
+
+    private fun setSwipeToDelete() {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            0, ItemTouchHelper.LEFT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -80,42 +97,80 @@ class HomeFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val habit = adapter.currentList[position]
+
                 lifecycleScope.launch {
                     viewModel.deleteHabit(habit)
                 }
-                // adapter.notifyItemRemoved(position)
-               //  updateList()
+            }
+
+            override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
+                return 1f
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+
+                val mClearPaint = Paint()
+                mClearPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+
+                val mBackGround = ColorDrawable()
+                val backGroundColor = Color.parseColor("#b80f0a")
+                val deleteDrawable =
+                    getDrawable(requireContext(), R.drawable.baseline_delete_forever_24)
+                val width = deleteDrawable?.intrinsicWidth ?: 0
+                val height = deleteDrawable?.intrinsicHeight ?: 0
+
+                val itemView = viewHolder.itemView
+                val itemHeight = itemView.height
+
+                val isCancelled = (dX == 0f && !isCurrentlyActive)
+                if (isCancelled) {
+                    c.drawRect(
+                        itemView.right + dX,
+                        itemView.top.toFloat(),
+                        itemView.right.toFloat(),
+                        itemView.bottom.toFloat(),
+                        mClearPaint
+                    )
+                }
+
+                mBackGround.color = backGroundColor
+                mBackGround.setBounds(
+                    itemView.right + dX.toInt(),
+                    itemView.top,
+                    itemView.right,
+                    itemView.bottom
+                )
+                mBackGround.draw(c)
+
+                val deleteIconTop = itemView.top + (itemHeight - height) / 2
+                val deleteIconMargin = (itemHeight - height) / 2
+                val deleteIconLeft = itemView.right - deleteIconMargin - width
+                val deleteIconRight = itemView.right - deleteIconMargin
+                val deleteIconBottom = deleteIconTop + height
+
+                deleteDrawable?.setBounds(
+                    deleteIconLeft,
+                    deleteIconTop,
+                    deleteIconRight,
+                    deleteIconBottom
+                )
+                deleteDrawable?.draw(c)
+
+                super.onChildDraw(
+                    c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
+                )
             }
         }
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(binding.recyclerView)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    private fun updateList() {
-
-        viewModel.allHabit.observe(this.viewLifecycleOwner) { items ->
-            items.let { list ->
-                adapter.submitList(list)
-            }
-        }
-
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel
-//                    .listHabitFlow
-//                    .distinctUntilChanged()
-//
-//                    .collect {list ->
-//                        adapter.submitList(list.sortedByDescending { it.priority })
-//                    }
-//            }
-//        }
-
     }
 }
