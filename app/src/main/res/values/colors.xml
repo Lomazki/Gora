@@ -9,4 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#0000ff</color>
     <color name="gray">#BDBDBD</color>
+    <color name="blue_fcbk">#3B60B7</color>
+    <color name="periwinkle">#C2D5FF</color>
+    <color name="pearl">#E7DFCA</color>
+    <color name="sea_foam">#F9F4EC</color>
+    <color name="sapphire">#081636</color>
+    <color name="snow_white">#FFFDFA</color>
 </resources>

@@ -31,28 +31,38 @@ class HomeFragment : Fragment() {
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModel<HomeViewModel>()
     private val adapter by lazy {
-        HabitAdapter(context = requireContext(), onButtonDoneClicked = {
-            viewModel.skipDown(it)
-        })
+        HabitAdapter(
+            context = requireContext(),
+            onButtonDoneClicked = {
+                viewModel.skipDown(it)
+            }
+        )
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        return FragmentHomeBinding.inflate(inflater, container, false).also { _binding = it }.root
+        return FragmentHomeBinding.inflate(inflater, container, false)
+            .also { _binding = it }
+            .root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            root.setBackgroundColor(Color.GRAY)
             recyclerView.adapter = adapter
+
+            // закругляем углы картинки
+            ivHills.clipToOutline = true
 
             // Decorator
             recyclerView.addItemDecoration(
                 MaterialDividerItemDecoration(
-                    requireContext(), MaterialDividerItemDecoration.VERTICAL
+                    requireContext(),
+                    MaterialDividerItemDecoration.VERTICAL
                 )
             )
         }
@@ -84,7 +94,8 @@ class HomeFragment : Fragment() {
 
     private fun setSwipeToDelete() {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -97,12 +108,10 @@ class HomeFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val habit = adapter.currentList[position]
-
                 lifecycleScope.launch {
                     viewModel.deleteHabit(habit)
                 }
             }
-
             override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
                 return 1f
             }
