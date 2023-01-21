@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getDrawable
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -15,6 +16,9 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.pethabittracker.gora.R
 import com.pethabittracker.gora.databinding.FragmentHomeBinding
 import com.pethabittracker.gora.presentation.ui.adapter.HabitAdapter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -74,6 +78,12 @@ class HomeFragment : Fragment() {
     private fun updateList() {
 
         //------------------ with Coroutine -------------------------------------------------------
+        viewModel.getAllHabit().onEach {
+            adapter.submitList(it)
+
+
+
+        }.launchIn(lifecycleScope)
         viewModel
             .getAllHabit()
             .onEach {
@@ -84,6 +94,10 @@ class HomeFragment : Fragment() {
                 } else {
                     binding.root.setBackgroundResource(R.color.transparent)
                 }
+
+                //для плавности замены слоёв
+                delay(300)
+                binding.foto.isVisible = it.isEmpty()
             }
             .launchIn(lifecycleScope)
 
@@ -97,8 +111,7 @@ class HomeFragment : Fragment() {
 
     private fun setSwipeToDelete() {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            0, ItemTouchHelper.LEFT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -117,7 +130,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
-                return 1f
+                return 0.5f
             }
 
             override fun onChildDraw(
