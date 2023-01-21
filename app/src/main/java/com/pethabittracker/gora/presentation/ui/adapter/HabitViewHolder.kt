@@ -22,8 +22,7 @@ class HabitViewHolder(
                 Toast.makeText(context, "I have been lazy", Toast.LENGTH_SHORT).show()
             }
 
-            textView.text = habit.name
+            tvNameHabit.text = habit.name
         }
-
     }
 }
