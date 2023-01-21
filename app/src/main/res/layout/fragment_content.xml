@@ -6,45 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/foto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:layout_gravity="bottom">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                android:src="@drawable/foto" />
-
-            <TextView
-                android:id="@+id/tv_click_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:text="@string/add_habit_text"
-                android:textColor="@color/sapphire"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:id="@+id/iv_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|bottom"
-                android:paddingStart="104dp"
-                android:paddingEnd="0dp"
-                android:src="@drawable/vector_arrow" />
-        </LinearLayout>
-    </FrameLayout>
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container_content"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -70,6 +31,7 @@
             android:background="@color/white"
             app:elevation="0dp"
             app:itemIconTint="@color/blue_fcbk"
+            app:itemTextColor="@color/blue_fcbk"
             app:menu="@menu/menu_bottom" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -77,7 +39,8 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
+        app:backgroundTint="@color/periwinkle"
+        app:tint="@color/blue_fcbk"
         android:contentDescription="Q"
         android:src="@drawable/button_add"
         app:elevation="0dp"
