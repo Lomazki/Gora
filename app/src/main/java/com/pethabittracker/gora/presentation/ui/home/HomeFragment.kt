@@ -15,8 +15,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.pethabittracker.gora.R
 import com.pethabittracker.gora.databinding.FragmentHomeBinding
 import com.pethabittracker.gora.presentation.ui.adapter.HabitAdapter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -75,9 +74,18 @@ class HomeFragment : Fragment() {
     private fun updateList() {
 
         //------------------ with Coroutine -------------------------------------------------------
-        viewModel.getAllHabit().onEach {
-            adapter.submitList(it)
-        }.launchIn(lifecycleScope)
+        viewModel
+            .getAllHabit()
+            .onEach {
+                adapter.submitList(it)
+
+                if (it.isNotEmpty()) {
+                    binding.root.setBackgroundResource(R.color.sea_foam)
+                } else {
+                    binding.root.setBackgroundResource(R.color.transparent)
+                }
+            }
+            .launchIn(lifecycleScope)
 
         //------------------ with LiveData -------------------------------------------------------
 //        viewModel.allHabit.observe(this.viewLifecycleOwner) { items ->
