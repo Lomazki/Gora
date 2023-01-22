@@ -12,13 +12,6 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp">
 
-        <!--    <androidx.appcompat.widget.Toolbar-->
-        <!--        android:id="@+id/toolbar"-->
-        <!--        style="@style/Widget.MaterialComponents.Toolbar.Primary"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        app:title="@string/app_name" />-->
-
         <TextView
             android:id="@+id/tv_my_habit"
             android:layout_width="wrap_content"

@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.textfield.TextInputLayout
+import com.pethabittracker.gora.R
 import com.pethabittracker.gora.databinding.FragmentDetailBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,6 +34,10 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            toolbarDetail.setNavigationOnClickListener{
+                findNavController().navigateUp()
+            }
+
             buttonSave.setOnClickListener {
                 val titleHabit = containerTitle.getTextOrSetError() ?: return@setOnClickListener
 

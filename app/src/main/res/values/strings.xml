@@ -8,6 +8,7 @@
     <string name="add_habit_text">У вас пока нет привычек. \nЧтобы добавить привычку, \nНажмите «+»</string>
     <string name="done">сделано</string>
     <string name="skip">пропустить</string>
+    <string name="new_habit">Создать новую привычку</string>
 
 </resources>
 
