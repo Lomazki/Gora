@@ -6,43 +6,51 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--    <androidx.appcompat.widget.Toolbar-->
-    <!--        android:id="@+id/toolbar"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        style="@style/Widget.MaterialComponents.Toolbar.Primary"-->
-    <!--        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"-->
-    <!--        app:menu="@menu/menu_toolbar" />-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_detail"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/transparent_background"
+        app:navigationIcon="@drawable/left_accessory"
+        app:title="@string/new_habit"
+        app:titleTextColor="@color/blue_fcbk" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/container_title"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp">
+        android:layout_margin="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="@string/support_symbols"
-            android:hint="name of the habit"
+            android:hint="@string/name_habit"
             android:text="" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="@string/icon_choice_text"
+        android:textColor="@color/sapphire"
+        android:textSize="16sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:orientation="vertical">
 
         <GridLayout
             android:id="@+id/grid"
             android:layout_width="match_parent"
-            android:layout_height="118dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
             android:columnCount="5"
             android:orientation="horizontal"
             android:rowCount="2">
@@ -59,7 +67,6 @@
                 android:id="@+id/emoji_2"
                 android:layout_width="@dimen/emoji_choice"
                 android:layout_height="@dimen/emoji_choice"
-                android:layout_marginStart="@dimen/dp_14"
                 android:layout_marginEnd="@dimen/dp_14"
                 android:src="@drawable/are_you_ready"
                 app:shapeAppearanceOverlay="@style/roundedEmoji" />
@@ -68,7 +75,6 @@
                 android:id="@+id/emoji_3"
                 android:layout_width="@dimen/emoji_choice"
                 android:layout_height="@dimen/emoji_choice"
-                android:layout_marginStart="@dimen/dp_14"
                 android:layout_marginEnd="@dimen/dp_14"
                 android:src="@drawable/are_you_ready"
                 app:shapeAppearanceOverlay="@style/roundedEmoji" />
@@ -77,7 +83,6 @@
                 android:id="@+id/emoji_4"
                 android:layout_width="@dimen/emoji_choice"
                 android:layout_height="@dimen/emoji_choice"
-                android:layout_marginStart="@dimen/dp_14"
                 android:layout_marginEnd="@dimen/dp_14"
                 android:src="@drawable/are_you_ready"
                 app:shapeAppearanceOverlay="@style/roundedEmoji" />
@@ -86,8 +91,6 @@
                 android:id="@+id/emoji_5"
                 android:layout_width="@dimen/emoji_choice"
                 android:layout_height="@dimen/emoji_choice"
-                android:layout_marginStart="@dimen/dp_14"
-                android:layout_marginEnd="@dimen/dp_14"
                 android:src="@drawable/are_you_ready"
                 app:shapeAppearanceOverlay="@style/roundedEmoji" />
 
@@ -104,7 +107,6 @@
                 android:id="@+id/emoji_7"
                 android:layout_width="@dimen/emoji_choice"
                 android:layout_height="@dimen/emoji_choice"
-                android:layout_marginStart="@dimen/dp_14"
                 android:layout_marginTop="@dimen/dp_14"
                 android:layout_marginEnd="@dimen/dp_14"
                 android:src="@drawable/are_you_ready"
@@ -114,7 +116,6 @@
                 android:id="@+id/emoji_8"
                 android:layout_width="@dimen/emoji_choice"
                 android:layout_height="@dimen/emoji_choice"
-                android:layout_marginStart="@dimen/dp_14"
                 android:layout_marginTop="@dimen/dp_14"
                 android:layout_marginEnd="@dimen/dp_14"
                 android:src="@drawable/are_you_ready"
@@ -124,7 +125,6 @@
                 android:id="@+id/emoji_9"
                 android:layout_width="@dimen/emoji_choice"
                 android:layout_height="@dimen/emoji_choice"
-                android:layout_marginStart="@dimen/dp_14"
                 android:layout_marginTop="@dimen/dp_14"
                 android:layout_marginEnd="@dimen/dp_14"
                 android:src="@drawable/are_you_ready"
@@ -134,29 +134,118 @@
                 android:id="@+id/emoji_10"
                 android:layout_width="@dimen/emoji_choice"
                 android:layout_height="@dimen/emoji_choice"
-                android:layout_marginStart="@dimen/dp_14"
                 android:layout_marginTop="@dimen/dp_14"
                 android:src="@drawable/are_you_ready"
                 app:shapeAppearanceOverlay="@style/roundedEmoji" />
         </GridLayout>
-
-
     </LinearLayout>
 
+    <!--    <TextView-->
+    <!--        android:id="@+id/date"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_margin="16dp"-->
+    <!--        android:hint="date"-->
+    <!--        android:text=""-->
+    <!--        android:textSize="16sp" />-->
+
     <TextView
-        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="date"
-        android:text=""
+        android:layout_margin="12dp"
+        android:text="@string/day_of_week_choice_text"
+        android:textColor="@color/sapphire"
         android:textSize="16sp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_save"
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="SAVE" />
+        android:layout_marginHorizontal="12dp">
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/week_height"
+            android:layout_weight="1"
+            android:text="@string/monday"
+            android:textAllCaps="false"
+            app:shapeAppearance="@style/roundedWeek"
+            app:strokeColor="@color/periwinkle" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/week_height"
+            android:layout_weight="1"
+            android:text="@string/tuesday"
+            android:textAllCaps="false"
+            app:strokeColor="@color/periwinkle" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/week_height"
+            android:layout_weight="1"
+            android:text="@string/wednesday"
+            android:textAllCaps="false"
+            app:strokeColor="@color/periwinkle" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/week_height"
+            android:layout_weight="1"
+            android:text="@string/thursday"
+            android:textAllCaps="false"
+            app:strokeColor="@color/periwinkle" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/week_height"
+            android:layout_weight="1"
+            android:text="@string/friday"
+            android:textAllCaps="false"
+            app:strokeColor="@color/periwinkle" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/week_height"
+            android:layout_weight="1"
+            android:text="@string/saturday"
+            android:textAllCaps="false"
+            app:strokeColor="@color/periwinkle" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/week_height"
+            android:layout_weight="1"
+            android:text="@string/sunday"
+            android:textAllCaps="false"
+            app:shapeAppearance="@style/roundedWeek"
+            app:strokeColor="@color/periwinkle" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="100dp"
+            app:shapeAppearance="@style/roundedEmoji"
+            android:text="@string/add_habit"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+
+            app:backgroundTint="@color/blue_fcbk" />
+    </FrameLayout>
 
 </LinearLayout>
