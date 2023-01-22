@@ -18,4 +18,5 @@
     <color name="pastel_green">#C7EEC9</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_2">#98000000</color>
+    <color name="habit_done">#C7EEC9</color>
 </resources>
