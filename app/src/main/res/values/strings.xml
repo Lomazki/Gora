@@ -10,6 +10,8 @@
     <string name="skip">пропустить</string>
     <string name="done_cancel">Привычка выполнена!</string>
     <string name="skip_cancel">Привычка пропущена</string>
+    <string name="gotit">Понятно</string>
+    <string name="delete_swipe_left">Чтобы удалить привычку, свайпните влево \nпо карточке привычки</string>
 
 </resources>
 
