@@ -24,6 +24,7 @@
     <string name="saturday">Сб</string>
     <string name="sunday">Вс</string>
     <string name="add_habit">Добавить привычку</string>
+    <string name="number_of_symbol">Введите не более 20 символов</string>
 
 
 </resources>

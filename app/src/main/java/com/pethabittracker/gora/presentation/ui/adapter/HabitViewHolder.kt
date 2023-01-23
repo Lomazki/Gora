@@ -31,6 +31,7 @@ class HabitViewHolder(
             buttonSkip.setOnClickListener {
                 frameChoice.isVisible = false
                 frameSkip.isVisible = true
+                root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.transparent_2))
 
                 onButtonDoneClicked(habit)
             }

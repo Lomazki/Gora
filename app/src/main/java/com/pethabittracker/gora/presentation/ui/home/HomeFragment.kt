@@ -51,32 +51,24 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // AlertDialog повесил пока что на Фотку
-        binding.foto.setOnClickListener {
-            val viewAlertDialog =
-                layoutInflater.inflate(R.layout.fragment_dialog_deleting, null, false)
-            val alertDialog = AlertDialog
-                .Builder(requireContext(), R.style.MyAlertTheme)
-                .setView(viewAlertDialog)
-                .show()
-            viewAlertDialog.findViewById<Button>(R.id.button_gotit).setOnClickListener {
-                alertDialog.dismiss()
-            }
-        }
-
         with(binding) {
             recyclerView.adapter = adapter
 
             // закругляем углы картинки
             ivHills.clipToOutline = true
 
-            // Decorator
-            recyclerView.addItemDecoration(
-                MaterialDividerItemDecoration(
-                    requireContext(),
-                    MaterialDividerItemDecoration.VERTICAL
-                )
-            )
+            // AlertDialog повесил пока что на Фотку
+            binding.foto.setOnClickListener {
+                val viewAlertDialog =
+                    layoutInflater.inflate(R.layout.fragment_dialog_deleting, null, false)
+                val alertDialog = AlertDialog
+                    .Builder(requireContext(), R.style.MyAlertTheme)
+                    .setView(viewAlertDialog)
+                    .show()
+                viewAlertDialog.findViewById<Button>(R.id.button_gotit).setOnClickListener {
+                    alertDialog.dismiss()
+                }
+            }
         }
 
         updateList()
